@@ -1,0 +1,305 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Design;
+
+import DB.DBConnection;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author SHASHANK
+ */
+public class Report extends HttpServlet {
+
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try 
+        {
+            
+            /* HttpSession session=request.getSession();
+          
+            if(session.getAttribute("s_user")==null)
+            {
+                response.sendRedirect("Home?msg=Please Login First");
+            } 
+            */
+  out.println("<html>");
+            out.println("<head>");
+            out.println("<title></title>");
+          
+            out.println("<link rel=stylesheet href=style.css>");
+            out.println("<style type='text/css'>.box{height:1040px;width:900px;}") ;
+            out.println("</style>");
+            out.println("<style type='text/css'>.header{height:140px;width:900px;}");  
+            
+            out.println("</style>");
+            out.println("<style type='text/css'>.menu{color:White;text-align:center;height:20px;width:900px;}");    
+            out.println("</style>");
+            out.println("<style type='text/css'>.slider{color:White;text-align:center;height:180px;width:900px;}");    
+            out.println("</style>");
+            out.println("<style type='text/css'>.main{background-color:lightsteelblue;height:500px;width:900px;}");    
+            out.println("</style>");
+            out.println("<style type='text/css'>.footer{background-image:url(image/foot.jpg);text-decoration:none;text-align:center;height:70px;width:900px;} ");    
+            out.println("</style>");
+            out.println("<style type='text/css'>.link{display:block;color:White;background-color:#003366;text-decoration:none;text-align: center;} .link:hover{color:black;background-color:white;} .style1{color:#003366;}");        
+            out.println("</style>");
+             out.println("<center></head><body><div id=box>");
+              out.println("<div class=header><img src=image/bn1.jpg style='height:140px; width:900px;'></div>");
+               out.println("<div class=menu><table style='width:900px; border=0 cellpadding=0 cellspacing=0;'>");
+            out.println("<tr style='width:900px'>");
+            out.println("<td style='width:700px;'>");
+            out.println("<marquee scrollamount=5 class=style1>..............Welcome in Our Hospital.You Can Take Appointment.......................</marquee>");
+            out.println("</td>");
+            out.println("<td style='width:10px'>");
+            out.println("<img src=image/nav1.png>");
+            out.println("</td>");
+            
+            out.println("<td style='width:190px;background-color:Black;'>");
+            out.println("<a class=link href=PatientHome>PATIENT HOME</a></td>");
+            out.println("<td style='width:190px;background-color:Black;'>");
+            out.println("<a class=link href=Home>LOG OUT</a></td>");
+           
+            out.println("</tr>");
+            out.println("</table>");
+                     out.println("</div>");
+             out.println("<div class=slider><img src=image/med.jpg style='height:180;width:900px;'></div>");
+             
+             
+              out.println("<div class=main>");
+            
+              out.println("<center><br><b style='color:#003366;font-size:18px;'>Final Receipt Of Patient...</b><hr/>");
+              out.println("<table style='width:600px;height:400px;background-color:white; cellspacing=0 cellpadding=0 border=2 '>");
+              out.println("<form action=Reportcnf method=get>");
+               // String user=session.getAttribute("s_user").toString();
+             
+                String dt=request.getParameter("dt");
+              try
+              {
+                  
+             
+             String user=request.getParameter("user");
+             // out.println("user"+user);
+             String dl=request.getParameter("dl");
+            //  out.println("dl"+dl);
+              DBConnection db=new DBConnection();
+              db.stmt=db.con.createStatement(); 
+              db.rst=db.stmt.executeQuery("select dname,specialization,fee,email from adddoc where email='"+dl+"'");
+             String pn=request.getParameter("pn");
+              String pe=request.getParameter("pe");
+               String pa=request.getParameter("pa");
+          
+               String dname=null,demail=null,dsp=null,dfee=null;
+               if(db.rst.next())
+              {
+          
+                  dname=db.rst.getString(1);
+                  demail=db.rst.getString(4);
+                  dsp=db.rst.getString(2);
+                  dfee=db.rst.getString(3);
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Specialization</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(2)+" </td>");
+            //out.println("");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Doctor Name</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(1)+"</td>");
+            //out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Doctor Email</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(4)+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+            out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Fees</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(3)+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            }
+              
+               out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Date</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+dt+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+           // db.stmt=db.con.createStatement(); 
+           db.rst=db.stmt.executeQuery("select pname,pfname,pmobile,pemail,padd from pregis where pemail='"+user+"'");
+              
+            if(db.rst.next())
+            {
+     
+                      db.pstmt=db.con.prepareStatement("insert into patientlist(dname,demail,specialization,pname,pemail,paddress,date,fee)values(?,?,?,?,?,?,?,?)");
+           
+           db.pstmt.setString(1,dname);
+           db.pstmt.setString(2,demail);
+           db.pstmt.setString(3,dsp);
+           db.pstmt.setString(4,db.rst.getString(1));
+            db.pstmt.setString(5,db.rst.getString(4));
+           db.pstmt.setString(6,db.rst.getString(5));
+            db.pstmt.setString(7,dt);
+             db.pstmt.setString(8,dsp);
+         
+           
+           int i=db.pstmt.executeUpdate();
+       
+                //out.println("dl"+dl);
+                 // out.println("user"+user);
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Patient Name</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(1)+" </td>");
+            //out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Patient Father'sName</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(2)+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Patient Mobile</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(3)+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Patient Email</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(4)+" </td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+            
+             out.println("<tr style='height:40px;color:#003366;'>");
+            out.println("<td style='width:50px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;Patient Address</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;:</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;"+db.rst.getString(5)+"</td>");
+           // out.println("</td>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("</tr>");
+            
+               }
+            }
+               catch(Exception e)
+       {
+           e.printStackTrace();
+       } 
+               String user=request.getParameter("user");
+             // out.println("user"+user);
+              String dl=request.getParameter("dl");
+               //out.println("ok3");
+           // out.println("dl"+dl);
+           // out.println("user"+user);
+           out.println("<tr style='height:50px;color:#003366;'>");
+            out.println("<td style='width: 150px;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;<input type=submit value=PRINT style='width:80px;'</td>");
+            out.println("<td style='width: 100px;text-align:center;'>&nbsp;</td>");
+            out.println("<td style='width: 250px;text-align:left;'>&nbsp;<input type=reset value=RESET style='width:80px;' />");
+            out.println("</td>");
+            out.println("<td style='width: 125px;'>&nbsp;</td>");
+            out.println("</tr></form></table>");
+            
+              //out.println("<input type=hidden name=user value="+user+"");
+             out.println("<input type=hidden name=user value='"+user+"'");
+             out.println("<input type=hidden name=dl value='"+dl+"'");
+              
+            
+           
+            String str=request.getParameter("msg");
+            if(str!=null)
+            {
+               out.println("<h3 style='color:red;'>"+str+"</h3>");
+            }
+
+                     out.println("</div>");
+            
+           
+           out.println("<div class=footer>");
+            out.println("<table style='width:900px;' cellpadding=0 cellspacing=0 border=0>");
+            out.println("<tr>");
+            out.println("<td style='width: 250px'>");
+            out.println("</td>");
+            out.println("<td style='width: 340px'>");
+            out.println("</td>");
+            out.println("<td style='width: 60px'>&nbsp;</td>");
+            out.println("<td style='width: 65px'>&nbsp;</td>");
+            out.println("<td style='width: 95px'>");
+            out.println("<label style='color:red;'>New Patient?</label>");
+            out.println("</td>");
+            out.println("<td style='width: 90px'>");
+            out.println("<a href=regis style='color:#003366;'>Register Here</a>");
+            out.println("</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td style='width: 250px'>&nbsp;</td>");
+            out.println("<td style='width: 340px'>");
+            out.println("<center>");
+            out.println("<label style='color:#003366;'><b>Copyright reserved to Online Doctor Appointment</b> </label>");
+            out.println("</center>");
+            out.println("</td>");
+            out.println("<td style='width: 60px'&nbsp;</td>");
+            out.println("<td style='width: 65px'>&nbsp;</td>");
+            out.println("<td style='width: 95px'>&nbsp;</td>");
+            out.println("<td style='width: 90px'>&nbsp;</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td style='width: 250px'>&nbsp;</td>");
+            out.println("<td style='width: 340px;color:#003366;'>");
+            out.println("<center> Powered By: Online Doctor's  Team </center>");
+            out.println("</td>");
+            out.println("<td style='width: 60px'>&nbsp;</td>");
+            out.println("<td style='width: 65px'>&nbsp;</td>");
+            out.println("<td style='width: 95px'>&nbsp;</td>");
+            out.println("<td style='width: 90px'>&nbsp;</td>");
+            out.println("</tr>");
+            out.println("</table>");
+                     out.println("</div>");
+             out.println("<div></div>");
+            out.println("</div></center></body></html>");
+        } 
+       catch(Exception e)
+       {
+           e.printStackTrace();
+       } 
+    }
+}
